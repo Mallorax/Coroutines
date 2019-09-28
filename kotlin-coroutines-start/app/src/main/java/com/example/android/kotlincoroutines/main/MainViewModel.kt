@@ -58,7 +58,7 @@ class MainViewModel : ViewModel() {
         // TODO: Replace with coroutine implementation
         viewModelScope.launch {
             delay(1_000)
-            _snackBar.postValue("Hello, from threads!")
+            _snackBar.postValue("Hello, from coroutines!")
         }
     }
 
