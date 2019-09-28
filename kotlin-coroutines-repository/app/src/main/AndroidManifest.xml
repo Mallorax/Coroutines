@@ -18,6 +18,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.kotlincoroutines">
 
+
     <application
         android:name=".KotlinCoroutinesApp"
         android:allowBackup="true"
@@ -33,6 +34,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
+        <uses-library android:name="android.test.base"
+            android:required="false" />
+        <uses-library android:name="android.test.mock"
+            android:required="false" />
+
     </application>
 
 </manifest>
