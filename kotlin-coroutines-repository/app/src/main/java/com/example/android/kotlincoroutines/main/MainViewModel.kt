@@ -24,6 +24,7 @@ import com.example.android.kotlincoroutines.main.TitleRepository.RefreshState.Er
 import com.example.android.kotlincoroutines.main.TitleRepository.RefreshState.Loading
 import com.example.android.kotlincoroutines.main.TitleRepository.RefreshState.Success
 import com.example.android.kotlincoroutines.util.singleArgViewModelFactory
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -104,13 +105,8 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
      */
     fun refreshTitle() {
         viewModelScope.launch {
-            try{
-                _spinner.value = true
+            launchDataLoad{
                 repository.refreshTitle()
-            }catch (error: TitleRefreshError){
-                _snackBar.value = error.message
-            }finally {
-                _spinner.value = false
             }
         }
     }
@@ -126,5 +122,16 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
      *              lambda the loading spinner will display, after completion or error the loading
      *              spinner will stop
      */
-    // TODO: Add launchDataLoad here then refactor refreshTitle to use it
+    private fun launchDataLoad(block: suspend () -> Unit): Job {
+        return viewModelScope.launch {
+            try {
+                _spinner.value = true
+                block()
+            }catch (error: TitleRefreshError){
+                _snackBar.value = error.message
+            }finally {
+                _spinner.value = false
+            }
+        }
+    }
 }
